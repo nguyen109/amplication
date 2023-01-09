@@ -17,10 +17,3 @@ model User {
   updatedAt DateTime @updatedAt
   username  String   @unique
 }
-
-model Task {
-  createdAt DateTime @default(now())
-  id        String   @id @default(cuid())
-  title     String?
-  updatedAt DateTime @updatedAt
-}
