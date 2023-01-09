@@ -46,12 +46,28 @@ export class TaskControllerBase {
   @swagger.ApiForbiddenResponse({ type: errors.ForbiddenException })
   async create(@common.Body() data: TaskCreateInput): Promise<Task> {
     return await this.service.create({
-      data: data,
+      data: {
+        ...data,
+
+        user: data.user
+          ? {
+              connect: data.user,
+            }
+          : undefined,
+      },
       select: {
         createdAt: true,
+        description: true,
+        done: true,
         id: true,
         title: true,
         updatedAt: true,
+
+        user: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
   }
@@ -72,9 +88,17 @@ export class TaskControllerBase {
       ...args,
       select: {
         createdAt: true,
+        description: true,
+        done: true,
         id: true,
         title: true,
         updatedAt: true,
+
+        user: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
   }
@@ -96,9 +120,17 @@ export class TaskControllerBase {
       where: params,
       select: {
         createdAt: true,
+        description: true,
+        done: true,
         id: true,
         title: true,
         updatedAt: true,
+
+        user: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
     if (result === null) {
@@ -126,12 +158,28 @@ export class TaskControllerBase {
     try {
       return await this.service.update({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          user: data.user
+            ? {
+                connect: data.user,
+              }
+            : undefined,
+        },
         select: {
           createdAt: true,
+          description: true,
+          done: true,
           id: true,
           title: true,
           updatedAt: true,
+
+          user: {
+            select: {
+              id: true,
+            },
+          },
         },
       });
     } catch (error) {
@@ -161,9 +209,17 @@ export class TaskControllerBase {
         where: params,
         select: {
           createdAt: true,
+          description: true,
+          done: true,
           id: true,
           title: true,
           updatedAt: true,
+
+          user: {
+            select: {
+              id: true,
+            },
+          },
         },
       });
     } catch (error) {

@@ -34,6 +34,24 @@ class TaskOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
+  description?: SortOrder;
+
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
+  done?: SortOrder;
+
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
   id?: SortOrder;
 
   @ApiProperty({
@@ -53,6 +71,15 @@ class TaskOrderByInput {
     nullable: true,
   })
   updatedAt?: SortOrder;
+
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
+  userId?: SortOrder;
 }
 
 export { TaskOrderByInput };
