@@ -25,6 +25,7 @@ import { DeleteTaskArgs } from "./DeleteTaskArgs";
 import { TaskFindManyArgs } from "./TaskFindManyArgs";
 import { TaskFindUniqueArgs } from "./TaskFindUniqueArgs";
 import { Task } from "./Task";
+import { User } from "../../user/base/User";
 import { TaskService } from "../task.service";
 
 @graphql.Resolver(() => Task)
@@ -90,7 +91,15 @@ export class TaskResolverBase {
   async createTask(@graphql.Args() args: CreateTaskArgs): Promise<Task> {
     return await this.service.create({
       ...args,
-      data: args.data,
+      data: {
+        ...args.data,
+
+        user: args.data.user
+          ? {
+              connect: args.data.user,
+            }
+          : undefined,
+      },
     });
   }
 
@@ -105,7 +114,15 @@ export class TaskResolverBase {
     try {
       return await this.service.update({
         ...args,
-        data: args.data,
+        data: {
+          ...args.data,
+
+          user: args.data.user
+            ? {
+                connect: args.data.user,
+              }
+            : undefined,
+        },
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
@@ -134,5 +151,21 @@ export class TaskResolverBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => User, { nullable: true })
+  @nestAccessControl.UseRoles({
+    resource: "User",
+    action: "read",
+    possession: "any",
+  })
+  async user(@graphql.Parent() parent: Task): Promise<User | null> {
+    const result = await this.service.getUser(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 }

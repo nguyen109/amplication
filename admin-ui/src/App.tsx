@@ -13,7 +13,7 @@ import { TaskList } from "./task/TaskList";
 import { TaskCreate } from "./task/TaskCreate";
 import { TaskEdit } from "./task/TaskEdit";
 import { TaskShow } from "./task/TaskShow";
-import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
+import { httpAuthProvider } from "./auth-provider/ra-auth-http";
 
 const App = (): React.ReactElement => {
   const [dataProvider, setDataProvider] = useState<DataProvider | null>(null);
@@ -34,7 +34,7 @@ const App = (): React.ReactElement => {
       <Admin
         title={"My service"}
         dataProvider={dataProvider}
-        authProvider={jwtAuthProvider}
+        authProvider={httpAuthProvider}
         theme={theme}
         dashboard={Dashboard}
         loginPage={Login}
