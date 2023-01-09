@@ -11,18 +11,28 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
+import { File } from "../../file/base/File";
 import {
+  ValidateNested,
+  IsOptional,
   IsDate,
   IsString,
-  IsOptional,
   IsBoolean,
-  ValidateNested,
 } from "class-validator";
 import { Type } from "class-transformer";
 import { User } from "../../user/base/User";
 
 @ObjectType()
 class Task {
+  @ApiProperty({
+    required: false,
+    type: () => [File],
+  })
+  @ValidateNested()
+  @Type(() => File)
+  @IsOptional()
+  Attachment?: Array<File>;
+
   @ApiProperty({
     required: true,
   })

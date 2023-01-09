@@ -11,15 +11,28 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { FileListRelationFilter } from "../../file/base/FileListRelationFilter";
+import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
-import { IsOptional, ValidateNested } from "class-validator";
+import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { BooleanNullableFilter } from "../../util/BooleanNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
 
 @InputType()
 class TaskWhereInput {
+  @ApiProperty({
+    required: false,
+    type: () => FileListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => FileListRelationFilter)
+  @IsOptional()
+  @Field(() => FileListRelationFilter, {
+    nullable: true,
+  })
+  Attachment?: FileListRelationFilter;
+
   @ApiProperty({
     required: false,
     type: StringNullableFilter,

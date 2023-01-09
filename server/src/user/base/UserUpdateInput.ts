@@ -11,14 +11,27 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsOptional, IsJSON, ValidateNested } from "class-validator";
+import { FileWhereUniqueInput } from "../../file/base/FileWhereUniqueInput";
+import { ValidateNested, IsOptional, IsString, IsJSON } from "class-validator";
+import { Type } from "class-transformer";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
 import { TaskUpdateManyWithoutUsersInput } from "./TaskUpdateManyWithoutUsersInput";
-import { Type } from "class-transformer";
 
 @InputType()
 class UserUpdateInput {
+  @ApiProperty({
+    required: false,
+    type: () => FileWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => FileWhereUniqueInput)
+  @IsOptional()
+  @Field(() => FileWhereUniqueInput, {
+    nullable: true,
+  })
+  Avatar?: FileWhereUniqueInput | null;
+
   @ApiProperty({
     required: false,
     type: String,

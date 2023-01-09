@@ -27,6 +27,9 @@ import { TaskWhereUniqueInput } from "./TaskWhereUniqueInput";
 import { TaskFindManyArgs } from "./TaskFindManyArgs";
 import { TaskUpdateInput } from "./TaskUpdateInput";
 import { Task } from "./Task";
+import { FileFindManyArgs } from "../../file/base/FileFindManyArgs";
+import { File } from "../../file/base/File";
+import { FileWhereUniqueInput } from "../../file/base/FileWhereUniqueInput";
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
 export class TaskControllerBase {
@@ -230,5 +233,103 @@ export class TaskControllerBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @nestAccessControl.UseRoles({
+    resource: "File",
+    action: "read",
+    possession: "any",
+  })
+  @common.Get("/:id/Attachment")
+  @ApiNestedQuery(FileFindManyArgs)
+  async findManyAttachment(
+    @common.Req() request: Request,
+    @common.Param() params: TaskWhereUniqueInput
+  ): Promise<File[]> {
+    const query = plainToClass(FileFindManyArgs, request.query);
+    const results = await this.service.findAttachment(params.id, {
+      ...query,
+      select: {
+        createdAt: true,
+        id: true,
+        name: true,
+        path: true,
+        size: true,
+        updatedAt: true,
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @nestAccessControl.UseRoles({
+    resource: "Task",
+    action: "update",
+    possession: "any",
+  })
+  @common.Post("/:id/Attachment")
+  async connectAttachment(
+    @common.Param() params: TaskWhereUniqueInput,
+    @common.Body() body: FileWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      Attachment: {
+        connect: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @nestAccessControl.UseRoles({
+    resource: "Task",
+    action: "update",
+    possession: "any",
+  })
+  @common.Patch("/:id/Attachment")
+  async updateAttachment(
+    @common.Param() params: TaskWhereUniqueInput,
+    @common.Body() body: FileWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      Attachment: {
+        set: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @nestAccessControl.UseRoles({
+    resource: "Task",
+    action: "update",
+    possession: "any",
+  })
+  @common.Delete("/:id/Attachment")
+  async disconnectAttachment(
+    @common.Param() params: TaskWhereUniqueInput,
+    @common.Body() body: FileWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      Attachment: {
+        disconnect: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
   }
 }

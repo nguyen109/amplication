@@ -25,6 +25,8 @@ import { DeleteTaskArgs } from "./DeleteTaskArgs";
 import { TaskFindManyArgs } from "./TaskFindManyArgs";
 import { TaskFindUniqueArgs } from "./TaskFindUniqueArgs";
 import { Task } from "./Task";
+import { FileFindManyArgs } from "../../file/base/FileFindManyArgs";
+import { File } from "../../file/base/File";
 import { User } from "../../user/base/User";
 import { TaskService } from "../task.service";
 
@@ -151,6 +153,26 @@ export class TaskResolverBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [File])
+  @nestAccessControl.UseRoles({
+    resource: "File",
+    action: "read",
+    possession: "any",
+  })
+  async attachment(
+    @graphql.Parent() parent: Task,
+    @graphql.Args() args: FileFindManyArgs
+  ): Promise<File[]> {
+    const results = await this.service.findAttachment(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
