@@ -4,12 +4,15 @@ import {
   Edit,
   SimpleForm,
   EditProps,
+  ReferenceInput,
+  SelectInput,
   TextInput,
   PasswordInput,
   SelectArrayInput,
   ReferenceArrayInput,
 } from "react-admin";
 
+import { FileTitle } from "../file/FileTitle";
 import { TaskTitle } from "../task/TaskTitle";
 import { ROLES_OPTIONS } from "../user/RolesOptions";
 
@@ -17,6 +20,9 @@ export const UserEdit = (props: EditProps): React.ReactElement => {
   return (
     <Edit {...props}>
       <SimpleForm>
+        <ReferenceInput source="file.id" reference="File" label="Avatar">
+          <SelectInput optionText={FileTitle} />
+        </ReferenceInput>
         <TextInput label="First Name" source="firstName" />
         <TextInput label="Last Name" source="lastName" />
         <PasswordInput label="Password" source="password" />

@@ -4,20 +4,24 @@ import {
   Show,
   SimpleShowLayout,
   ShowProps,
-  DateField,
+  ReferenceField,
   TextField,
+  DateField,
   ReferenceManyField,
   Datagrid,
   BooleanField,
-  ReferenceField,
 } from "react-admin";
 
 import { USER_TITLE_FIELD } from "./UserTitle";
+import { FILE_TITLE_FIELD } from "../file/FileTitle";
 
 export const UserShow = (props: ShowProps): React.ReactElement => {
   return (
     <Show {...props}>
       <SimpleShowLayout>
+        <ReferenceField label="Avatar" source="file.id" reference="File">
+          <TextField source={FILE_TITLE_FIELD} />
+        </ReferenceField>
         <DateField source="createdAt" label="Created At" />
         <TextField label="First Name" source="firstName" />
         <TextField label="ID" source="id" />

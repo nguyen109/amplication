@@ -13,6 +13,10 @@ import { TaskList } from "./task/TaskList";
 import { TaskCreate } from "./task/TaskCreate";
 import { TaskEdit } from "./task/TaskEdit";
 import { TaskShow } from "./task/TaskShow";
+import { FileList } from "./file/FileList";
+import { FileCreate } from "./file/FileCreate";
+import { FileEdit } from "./file/FileEdit";
+import { FileShow } from "./file/FileShow";
 import { httpAuthProvider } from "./auth-provider/ra-auth-http";
 
 const App = (): React.ReactElement => {
@@ -52,6 +56,13 @@ const App = (): React.ReactElement => {
           edit={TaskEdit}
           create={TaskCreate}
           show={TaskShow}
+        />
+        <Resource
+          name="File"
+          list={FileList}
+          edit={FileEdit}
+          create={FileCreate}
+          show={FileShow}
         />
       </Admin>
     </div>

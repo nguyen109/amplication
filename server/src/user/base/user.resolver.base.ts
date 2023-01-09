@@ -27,6 +27,7 @@ import { UserFindUniqueArgs } from "./UserFindUniqueArgs";
 import { User } from "./User";
 import { TaskFindManyArgs } from "../../task/base/TaskFindManyArgs";
 import { Task } from "../../task/base/Task";
+import { File } from "../../file/base/File";
 import { UserService } from "../user.service";
 
 @graphql.Resolver(() => User)
@@ -92,7 +93,15 @@ export class UserResolverBase {
   async createUser(@graphql.Args() args: CreateUserArgs): Promise<User> {
     return await this.service.create({
       ...args,
-      data: args.data,
+      data: {
+        ...args.data,
+
+        Avatar: args.data.Avatar
+          ? {
+              connect: args.data.Avatar,
+            }
+          : undefined,
+      },
     });
   }
 
@@ -107,7 +116,15 @@ export class UserResolverBase {
     try {
       return await this.service.update({
         ...args,
-        data: args.data,
+        data: {
+          ...args.data,
+
+          Avatar: args.data.Avatar
+            ? {
+                connect: args.data.Avatar,
+              }
+            : undefined,
+        },
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
@@ -156,5 +173,21 @@ export class UserResolverBase {
     }
 
     return results;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => File, { nullable: true })
+  @nestAccessControl.UseRoles({
+    resource: "File",
+    action: "read",
+    possession: "any",
+  })
+  async avatar(@graphql.Parent() parent: User): Promise<File | null> {
+    const result = await this.service.getAvatar(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 }

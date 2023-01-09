@@ -11,17 +11,30 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
+import { FileCreateNestedManyWithoutTasksInput } from "./FileCreateNestedManyWithoutTasksInput";
 import {
-  IsString,
-  IsOptional,
-  IsBoolean,
   ValidateNested,
+  IsOptional,
+  IsString,
+  IsBoolean,
 } from "class-validator";
-import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
 import { Type } from "class-transformer";
+import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
 
 @InputType()
 class TaskCreateInput {
+  @ApiProperty({
+    required: false,
+    type: () => FileCreateNestedManyWithoutTasksInput,
+  })
+  @ValidateNested()
+  @Type(() => FileCreateNestedManyWithoutTasksInput)
+  @IsOptional()
+  @Field(() => FileCreateNestedManyWithoutTasksInput, {
+    nullable: true,
+  })
+  Attachment?: FileCreateNestedManyWithoutTasksInput;
+
   @ApiProperty({
     required: false,
     type: String,

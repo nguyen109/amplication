@@ -238,5 +238,125 @@
     "resource": "Task",
     "action": "read:any",
     "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "File",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "staff",
+    "resource": "File",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "superAdmin",
+    "resource": "File",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "File",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "File",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "staff",
+    "resource": "File",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "superAdmin",
+    "resource": "File",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "File",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "File",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "staff",
+    "resource": "File",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "superAdmin",
+    "resource": "File",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "File",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "File",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "staff",
+    "resource": "File",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "superAdmin",
+    "resource": "File",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "File",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "File",
+    "action": "read:any",
+    "attributes": "*"
+  },
+  {
+    "role": "staff",
+    "resource": "File",
+    "action": "read:any",
+    "attributes": "*"
+  },
+  {
+    "role": "superAdmin",
+    "resource": "File",
+    "action": "read:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "File",
+    "action": "read:any",
+    "attributes": "*"
   }
 ]
